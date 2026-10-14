@@ -1,0 +1,29 @@
+# secrets and local configuration
+.env
+*.env
+!config/*.env.example
+secrets/
+
+# datasets and model weights (downloaded separately, see docs)
+data/
+datasets/
+*.pt
+*.onnx
+runs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
