@@ -1,0 +1,23 @@
+@startuml system-context
+title CariesScan — System Context Diagram
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam rectangle {
+  BackgroundColor<<system>> #DCE8F7
+  BackgroundColor<<external>> #EEEEEE
+}
+actor "Patient" as patient
+actor "Administrator" as admin
+actor "Dentist\n(receives PDF from patient)" as dentist
+rectangle "CariesScan platform\n\nDetects visual signs of caries on\nteeth photos and explains the result" <<system>> as sys
+rectangle "LLM provider\n(Gemini API)" <<external>> as llm
+rectangle "E-mail service\n(SMTP)" <<external>> as mail
+rectangle "Open datasets\n(Zenodo, AlphaDent)\nused offline for training" <<external>> as data
+
+patient --> sys : uploads photo,\nviews results and history
+admin --> sys : manages users,\nmonitors jobs
+sys --> llm : findings + photo ->\nplain-language explanation
+sys --> mail : registration and\npassword reset e-mails
+dentist <.. patient : shows PDF report
+data ..> sys : trained model\n(offline)
+@enduml

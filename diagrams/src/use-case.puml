@@ -1,0 +1,43 @@
+@startuml use-case
+title CariesScan — Use Case Diagram
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+actor Guest
+actor Patient
+actor Administrator
+actor "LLM provider" as LLM <<system>>
+Guest <|-- Patient
+
+rectangle CariesScan {
+  usecase "Register" as UC1
+  usecase "Log in" as UC2
+  usecase "Accept disclaimer\nand terms" as UC3
+  usecase "Upload teeth photo" as UC4
+  usecase "Check photo quality" as UC5
+  usecase "Detect caries regions" as UC6
+  usecase "View result with\nmarked regions" as UC7
+  usecase "Get plain-language\nexplanation" as UC8
+  usecase "View analysis history" as UC9
+  usecase "Delete analysis" as UC10
+  usecase "Download PDF report" as UC11
+  usecase "Compare two analyses" as UC12
+  usecase "Manage users" as UC13
+  usecase "Monitor jobs and statistics" as UC14
+}
+Guest --> UC1
+Guest --> UC2
+Patient --> UC4
+Patient --> UC7
+Patient --> UC9
+Patient --> UC10
+Patient --> UC11
+Patient --> UC12
+Administrator --> UC13
+Administrator --> UC14
+UC4 ..> UC3 : <<include>>
+UC4 ..> UC5 : <<include>>
+UC4 ..> UC6 : <<include>>
+UC7 ..> UC8 : <<extend>>
+UC8 --> LLM
+@enduml

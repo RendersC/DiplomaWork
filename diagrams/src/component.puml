@@ -1,0 +1,34 @@
+@startuml component
+title CariesScan — Component Diagram (draft)
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+
+node "Browser" {
+  [Web application\n(React + TypeScript)] as web
+}
+node "Docker host" {
+  [Nginx\nreverse proxy, static files] as nginx
+  [Backend API\n(Django + DRF)] as api
+  [Analysis worker\n(Celery)] as worker
+  [Inference service\n(FastAPI + ONNX Runtime, YOLO)] as inf
+  [LLM adapter\n(module of worker)] as adapter
+  database "PostgreSQL\nusers, analyses,\nfindings, jobs" as db
+  database "Redis\nqueue, cache" as redis
+  database "MinIO\nphotos (private)" as s3
+}
+cloud "Gemini API" as gemini
+
+web --> nginx : HTTPS
+nginx --> api : /api (REST, JWT)
+api --> db : ORM
+api --> s3 : store photo,\npre-signed URLs
+api --> redis : enqueue job
+worker --> redis : consume job
+worker --> s3 : read photo
+worker --> inf : POST /detect\n(REST)
+worker --> adapter
+adapter --> gemini : findings + photo\n-> explanation (JSON)
+worker --> db : save findings,\njob status
+web ..> s3 : load image via\npre-signed URL
+@enduml
