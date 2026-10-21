@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CariesScan — Prototype</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#fff; --text:#1d2433; --muted:#667085; --primary:#2563eb;
+          --danger:#dc2626; --ok:#16a34a; --border:#e4e7ec; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background:var(--bg); color:var(--text); }
+  header { background:var(--card); border-bottom:1px solid var(--border); padding:12px 16px;
+           display:flex; flex-wrap:wrap; gap:4px; justify-content:space-between; align-items:center; }
+  header b { color:var(--primary); }
+  nav button { background:none; border:none; color:var(--muted); font-size:14px; cursor:pointer; margin-left:4px; padding:4px; }
+  html, body { max-width:100%; }
+  nav { display:flex; flex-wrap:wrap; }
+  main { max-width:520px; margin:0 auto; padding:16px; }
+  .screen { display:none; } .screen.active { display:block; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:16px; }
+  h1 { font-size:22px; margin:0 0 8px; } h2 { font-size:18px; margin:0 0 12px; }
+  p { color:var(--muted); line-height:1.5; margin:0 0 12px; }
+  label { display:block; font-size:14px; margin:12px 0 4px; }
+  input[type=email], input[type=password] { width:100%; padding:10px; border:1px solid var(--border); border-radius:8px; font-size:15px; }
+  .btn { display:block; width:100%; padding:12px; border:none; border-radius:8px; background:var(--primary);
+         color:#fff; font-size:15px; cursor:pointer; margin-top:16px; }
+  .btn.secondary { background:#eef2ff; color:var(--primary); }
+  .drop { border:2px dashed var(--border); border-radius:12px; padding:32px 16px; text-align:center; color:var(--muted); cursor:pointer; }
+  .tips li { color:var(--muted); font-size:14px; margin-bottom:4px; }
+  .notice { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; border-radius:8px; padding:10px 12px; font-size:13px; }
+  .badge { display:inline-block; padding:4px 10px; border-radius:999px; font-size:13px; font-weight:600; }
+  .badge.warn { background:#fee2e2; color:var(--danger); } .badge.ok { background:#dcfce7; color:var(--ok); }
+  .photo { position:relative; border-radius:10px; overflow:hidden; background:#3b1f1f; }
+  .photo svg { display:block; width:100%; height:auto; }
+  .finding { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
+  .history-item { display:flex; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); cursor:pointer; }
+  .thumb { width:56px; height:40px; border-radius:6px; background:#7f3b3b; flex:none; }
+  .spinner { width:40px; height:40px; border:4px solid #dbeafe; border-top-color:var(--primary); border-radius:50%;
+             margin:24px auto; animation:spin 1s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .steps { font-size:14px; color:var(--muted); } .steps div { margin:6px 0; } .done { color:var(--ok); }
+  .checkbox { display:flex; gap:8px; align-items:flex-start; font-size:14px; color:var(--muted); margin-top:12px; }
+</style>
+</head>
+<body>
+<header>
+  <span><b>CariesScan</b></span>
+  <nav>
+    <button onclick="go('upload')">New</button>
+    <button onclick="go('history')">History</button>
+    <button onclick="go('login')">Exit</button>
+  </nav>
+</header>
+<main>
+
+  <!-- 1. Login -->
+  <section class="screen active" id="login">
+    <div class="card">
+      <h1>Check your teeth from a photo</h1>
+      <p>Upload a photo of your teeth and see regions with visual signs of caries.</p>
+      <label>E-mail</label><input type="email" value="patient@example.com">
+      <label>Password</label><input type="password" value="password">
+      <button class="btn" onclick="go('consent')">Log in</button>
+      <button class="btn secondary" onclick="go('consent')">Create account</button>
+    </div>
+  </section>
+
+  <!-- 2. Consent (FR-2) -->
+  <section class="screen" id="consent">
+    <div class="card">
+      <h2>Before the first analysis</h2>
+      <div class="notice">CariesScan is a screening tool, <b>not a diagnosis</b>. Only a dentist can diagnose caries.</div>
+      <div class="checkbox"><input type="checkbox" id="c1" checked><span>I understand that the result is not a medical diagnosis.</span></div>
+      <div class="checkbox"><input type="checkbox" id="c2" checked><span>I agree that my photo is stored privately and sent to an AI provider to generate an explanation.</span></div>
+      <button class="btn" onclick="go('upload')">Continue</button>
+    </div>
+  </section>
+
+  <!-- 3. Upload (FR-3) -->
+  <section class="screen" id="upload">
+    <div class="card">
+      <h2>New analysis</h2>
+      <div class="drop" onclick="go('processing'); setTimeout(()=>go('result'),2200)">
+        📷<br><b>Take or upload a photo</b><br><small>JPEG or PNG, up to 10 MB</small>
+      </div>
+      <ul class="tips">
+        <li>Use daylight or a bright lamp, no flash glare</li>
+        <li>Open your mouth wide, teeth fill most of the photo</li>
+        <li>Hold the phone still — blurry photos are rejected</li>
+      </ul>
+      <button class="btn secondary" onclick="go('rejected')">Show example: unusable photo</button>
+    </div>
+  </section>
+
+  <!-- 4. Processing -->
+  <section class="screen" id="processing">
+    <div class="card" style="text-align:center">
+      <h2>Analysing your photo</h2>
+      <div class="spinner"></div>
+      <div class="steps">
+        <div class="done">✓ Photo uploaded</div>
+        <div class="done">✓ Quality check passed</div>
+        <div>… Looking for signs of caries</div>
+        <div>… Preparing explanation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Rejected photo (FR-4) -->
+  <section class="screen" id="rejected">
+    <div class="card">
+      <h2>We could not analyse this photo</h2>
+      <p><span class="badge warn">Photo is too blurry</span></p>
+      <p>Teeth must be sharp to look for caries. Hold the phone with both hands, tap on the teeth to focus and take the photo again.</p>
+      <button class="btn" onclick="go('upload')">Take another photo</button>
+    </div>
+  </section>
+
+  <!-- 6. Result (FR-6, FR-7) -->
+  <section class="screen" id="result">
+    <div class="card">
+      <h2>Result · 14 Oct 2026</h2>
+      <p><span class="badge warn">Signs of caries found: 2 regions</span></p>
+      <div class="photo">
+        <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="Teeth photo with marked regions">
+          <rect width="400" height="260" fill="#6b2c2c"/>
+          <g fill="#f4efe6" stroke="#d9cfbf">
+            <rect x="40" y="60" width="44" height="64" rx="10"/><rect x="88" y="56" width="46" height="70" rx="10"/>
+            <rect x="138" y="52" width="58" height="76" rx="12"/><rect x="200" y="52" width="58" height="76" rx="12"/>
+            <rect x="262" y="56" width="46" height="70" rx="10"/><rect x="312" y="60" width="44" height="64" rx="10"/>
+            <rect x="48" y="140" width="42" height="58" rx="10"/><rect x="94" y="142" width="46" height="60" rx="10"/>
+            <rect x="144" y="144" width="52" height="60" rx="10"/><rect x="200" y="144" width="52" height="60" rx="10"/>
+            <rect x="256" y="142" width="46" height="60" rx="10"/><rect x="306" y="140" width="42" height="58" rx="10"/>
+          </g>
+          <circle cx="110" cy="100" r="8" fill="#5b4636"/><circle cx="274" cy="170" r="7" fill="#5b4636"/>
+          <g fill="none" stroke="#ef4444" stroke-width="3">
+            <rect x="96" y="86" width="28" height="28"/><rect x="260" y="156" width="28" height="28"/>
+          </g>
+          <g font-family="Arial" font-size="12" fill="#fff">
+            <rect x="96" y="70" width="40" height="16" fill="#ef4444"/><text x="100" y="82">1 · 87%</text>
+            <rect x="260" y="140" width="40" height="16" fill="#ef4444"/><text x="264" y="152">2 · 71%</text>
+          </g>
+        </svg>
+      </div>
+      <div style="margin-top:12px">
+        <div class="finding"><span>1 · Upper left, dark spot on chewing surface</span><b>87%</b></div>
+        <div class="finding"><span>2 · Lower right, darkened area near the gum</span><b>71%</b></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>What this means</h2>
+      <p>Two areas on your teeth look like possible caries: a dark spot on an upper tooth and a darker area on a lower tooth. Early caries can often be treated simply if it is found in time.</p>
+      <p><b>Recommendation:</b> book a check-up with a dentist in the next few weeks and show them this report.</p>
+      <div class="notice">This is not a diagnosis. Only a dentist can confirm caries.</div>
+      <button class="btn">Download PDF for the dentist</button>
+      <button class="btn secondary" onclick="go('history')">Go to history</button>
+    </div>
+  </section>
+
+  <!-- 7. History (FR-9) -->
+  <section class="screen" id="history">
+    <div class="card">
+      <h2>History</h2>
+      <div class="history-item" onclick="go('result')"><div class="thumb"></div><div><b>14 Oct 2026</b><br><small style="color:#dc2626">2 regions found</small></div></div>
+      <div class="history-item" onclick="go('result')"><div class="thumb"></div><div><b>2 Sep 2026</b><br><small style="color:#dc2626">1 region found</small></div></div>
+      <div class="history-item"><div class="thumb"></div><div><b>10 Jul 2026</b><br><small style="color:#16a34a">No signs found</small></div></div>
+      <button class="btn" onclick="go('upload')">New analysis</button>
+    </div>
+  </section>
+</main>
+<script>
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+    window.scrollTo(0, 0);
+  }
+  if (location.hash) go(location.hash.slice(1));
+</script>
+</body>
+</html>
