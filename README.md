@@ -44,15 +44,29 @@ analysis history, user accounts, evaluation of detection quality and performance
 system and technology comparisons, requirements, architecture diagrams, prototype and
 verification plan. Application code is not implemented yet.
 
-## Selected technologies (preliminary)
+## Selected technologies
 
-Python, Django REST Framework, PostgreSQL, Redis, PyTorch / Ultralytics YOLO, ONNX Runtime,
-React, TypeScript, Docker, Nginx, Gemini API. Justification: [docs/05-technology-comparison.md](docs/05-technology-comparison.md).
+| Layer | Technology |
+|---|---|
+| Detection model | Ultralytics YOLO (v8/11), exported to ONNX |
+| Inference service | FastAPI + ONNX Runtime |
+| Backend | Python, Django + Django REST Framework, JWT |
+| Background jobs | Celery + Redis |
+| Storage | PostgreSQL, MinIO (S3-compatible) for photos |
+| Frontend | React + TypeScript (Vite) |
+| Explanations / LLM baseline | Gemini 2.5 Flash via an adapter |
+| Deployment | Docker Compose, Nginx |
+
+Justification: [docs/05-technology-comparison.md](docs/05-technology-comparison.md).
 
 ## Links
 
-- YouTrack project: _link will be added_
+- YouTrack project: https://diplomawork.youtrack.cloud/issues/DIP
 - Documentation: [docs/](docs/)
+  - [01 Proposal](docs/01-project-proposal.md) · [02 Relevance evidence](docs/02-relevance-evidence.md) · [03 Literature review](docs/03-literature-review.md)
+  - [04 Existing systems](docs/04-existing-systems.md) · [05 Technology comparison](docs/05-technology-comparison.md) · [06 Requirements](docs/06-requirements.md)
+  - [07 Architecture](docs/07-architecture.md) · [08 Prototype](docs/08-prototype.md) · [09 Verification plan](docs/09-verification-plan.md)
+  - [10 Project management and risks](docs/10-project-management.md) · [11 Supervisor feedback](docs/11-supervisor-feedback.md)
 - Diagrams: [diagrams/](diagrams/)
 - Prototype: [prototype/](prototype/)
 
