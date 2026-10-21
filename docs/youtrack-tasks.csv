@@ -1,0 +1,21 @@
+Issue Id,Summary,Assignee,Priority,Due Date,State,Description
+DIP-1,"Set up repository, README, .gitignore",RendersC,Critical,2026-10-14,Done,"Repository structure, README with all required sections, .gitignore, .env.example. AC: README contains title, problem, users, team, scope, technologies; no secrets committed."
+DIP-2,Project proposal and scope,RendersC,Critical,2026-10-14,Done,"docs/01-project-proposal.md. AC: problem, users, aim, objectives, outcomes, in/out of scope, engineering complexity described; reviewed by second member."
+DIP-3,Relevance evidence and interview guide,AlikhanF2006,Critical,2026-10-15,Open,docs/02-relevance-evidence.md. AC: verified findings separated from assumptions; interview questions for patients and dentists; interview log template.
+DIP-4,Literature review,RendersC,Critical,2026-10-15,Open,"docs/03-literature-review.md. AC: >=12 sources, >=8 peer-reviewed, mostly last 5 years, analysis table, DOIs verified, limitations mapped to project decisions."
+DIP-5,Existing system comparison,AlikhanF2006,Critical,2026-10-17,Open,"docs/04-existing-systems.md. AC: 3-5 systems, 6-10 criteria, every claim has a source, conclusion on the need for the solution."
+DIP-6,Technology comparison,RendersC,Critical,2026-10-17,Open,"docs/05-technology-comparison.md. AC: >=3 key decisions, 2-3 alternatives each, criteria linked to requirements."
+DIP-7,Requirements specification,RendersC,Critical,2026-10-18,Open,docs/06-requirements.md. AC: FR and NFR with priorities and verifiable acceptance criteria; traceability to components.
+DIP-8,Architecture description and diagrams,RendersC,Critical,2026-10-19,Open,"docs/07-architecture.md, diagrams/src/*.puml, diagrams/export. AC: system context, use case, component diagrams; editable sources committed; consistent with requirements."
+DIP-9,UX prototype,AlikhanF2006,Critical,2026-10-19,Open,"prototype/index.html, screenshots, docs/08-prototype.md. AC: key scenarios S1-S5 clickable; API example for inference service."
+DIP-10,Verification and evaluation plan,AlikhanF2006,Critical,2026-10-21,Open,"docs/09-verification-plan.md, tests/README.md. AC: test plan, metrics, measurement conditions, baselines, requirement-to-test mapping."
+DIP-11,"Project management, risks, YouTrack link",RendersC,Major,2026-10-21,Open,"docs/10-project-management.md, README update. AC: responsibilities, milestones, risks with mitigation, dependencies, YouTrack link in README."
+DIP-12,Supervisor feedback log,RendersC,Major,2026-10-22,Open,docs/11-supervisor-feedback.md. AC: supervisor comments on key deliverables recorded with decisions and links to changes.
+DIP-13,Conduct 3-5 user interviews,AlikhanF2006,Critical,2026-10-21,Open,"Interview 1-2 dentists and 2-3 potential patients; fill log in docs/02-relevance-evidence.md. AC: >=3 interviews recorded, assumptions marked confirmed/refuted."
+DIP-14,Tag pre-defense-1 and submission summary,RendersC,Critical,2026-10-23,Open,"Create git tag pre-defense-1 on main; prepare summary of completed work, limitations, outstanding tasks. AC: tag exists and points to reviewed main."
+DIP-15,Prepare datasets in common YOLO format,RendersC,Major,2026-11-05,Open,"Download Zenodo and AlphaDent datasets, merge caries classes, convert masks to boxes, freeze test split. AC: conversion script in repo, split statistics documented."
+DIP-16,Train first YOLO baseline,RendersC,Major,2026-11-15,Open,"Train on Colab/Kaggle, export ONNX, log validation metrics. AC: mAP@0.5 on validation split reported, training config committed."
+DIP-17,Backend skeleton with auth and CI,RendersC,Major,2026-11-20,Open,"Django + DRF project, JWT auth, Docker Compose, CI running tests. AC: FR-1 tests pass in CI."
+DIP-18,Frontend skeleton,AlikhanF2006,Major,2026-11-20,Open,"React + TypeScript project with routing, login and upload screens from prototype. AC: builds in CI; screens match prototype."
+DIP-19,LLM baseline experiment script,AlikhanF2006,Normal,2026-11-30,Open,Script that queries Gemini for caries boxes on test images and stores JSON. AC: reproducible run on 20 images with fixed prompt and model version.
+DIP-20,Inference service with /detect,RendersC,Major,2026-12-05,Open,"FastAPI + ONNX Runtime service implementing the contract from docs/08. AC: tests on fixed images, p95 inference time measured."
