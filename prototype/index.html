@@ -32,10 +32,13 @@
   .badge { display:inline-block; padding:4px 10px; border-radius:999px; font-size:13px; font-weight:600; }
   .badge.warn { background:#fee2e2; color:var(--danger); } .badge.ok { background:#dcfce7; color:var(--ok); }
   .photo { position:relative; border-radius:10px; overflow:hidden; background:#3b1f1f; }
-  .photo svg { display:block; width:100%; height:auto; }
+  .photo img { display:block; width:100%; height:auto; }
+  .photo .box { position:absolute; border:3px solid #ef4444; }
+  .photo .box span { position:absolute; top:-18px; left:-3px; background:#ef4444; color:#fff; font:12px Arial, sans-serif; padding:1px 4px; white-space:nowrap; }
+  .credit { font-size:11px; color:var(--muted); margin-top:4px; }
   .finding { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
   .history-item { display:flex; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); cursor:pointer; }
-  .thumb { width:56px; height:40px; border-radius:6px; background:#7f3b3b; flex:none; }
+  .thumb { width:56px; height:40px; border-radius:6px; background:#7f3b3b url(assets/sample-teeth.jpg) center/cover; flex:none; }
   .spinner { width:40px; height:40px; border:4px solid #dbeafe; border-top-color:var(--primary); border-radius:50%;
              margin:24px auto; animation:spin 1s linear infinite; }
   @keyframes spin { to { transform:rotate(360deg); } }
@@ -123,34 +126,19 @@
       <h2>Result · 14 Oct 2026</h2>
       <p><span class="badge warn">Signs of caries found: 2 regions</span></p>
       <div class="photo">
-        <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="Teeth photo with marked regions">
-          <rect width="400" height="260" fill="#6b2c2c"/>
-          <g fill="#f4efe6" stroke="#d9cfbf">
-            <rect x="40" y="60" width="44" height="64" rx="10"/><rect x="88" y="56" width="46" height="70" rx="10"/>
-            <rect x="138" y="52" width="58" height="76" rx="12"/><rect x="200" y="52" width="58" height="76" rx="12"/>
-            <rect x="262" y="56" width="46" height="70" rx="10"/><rect x="312" y="60" width="44" height="64" rx="10"/>
-            <rect x="48" y="140" width="42" height="58" rx="10"/><rect x="94" y="142" width="46" height="60" rx="10"/>
-            <rect x="144" y="144" width="52" height="60" rx="10"/><rect x="200" y="144" width="52" height="60" rx="10"/>
-            <rect x="256" y="142" width="46" height="60" rx="10"/><rect x="306" y="140" width="42" height="58" rx="10"/>
-          </g>
-          <circle cx="110" cy="100" r="8" fill="#5b4636"/><circle cx="274" cy="170" r="7" fill="#5b4636"/>
-          <g fill="none" stroke="#ef4444" stroke-width="3">
-            <rect x="96" y="86" width="28" height="28"/><rect x="260" y="156" width="28" height="28"/>
-          </g>
-          <g font-family="Arial" font-size="12" fill="#fff">
-            <rect x="96" y="70" width="40" height="16" fill="#ef4444"/><text x="100" y="82">1 · 87%</text>
-            <rect x="260" y="140" width="40" height="16" fill="#ef4444"/><text x="264" y="152">2 · 71%</text>
-          </g>
-        </svg>
+        <img src="assets/sample-teeth.jpg" alt="Front view of teeth with marked regions">
+        <div class="box" style="left:68%;top:28.8%;width:7%;height:24.4%"><span>1 · 87%</span></div>
+        <div class="box" style="left:31.3%;top:74.4%;width:7.6%;height:15.9%"><span>2 · 71%</span></div>
       </div>
+      <div class="credit">Sample photo: Shaimaa Abdellatif, Wikimedia Commons, CC BY-SA 4.0 (cropped; boxes are illustrative).</div>
       <div style="margin-top:12px">
-        <div class="finding"><span>1 · Upper left, dark spot on chewing surface</span><b>87%</b></div>
-        <div class="finding"><span>2 · Lower right, darkened area near the gum</span><b>71%</b></div>
+        <div class="finding"><span>1 · Upper front teeth, dark cavity between two teeth</span><b>87%</b></div>
+        <div class="finding"><span>2 · Lower front tooth, brown area near the gum</span><b>71%</b></div>
       </div>
     </div>
     <div class="card">
       <h2>What this means</h2>
-      <p>Two areas on your teeth look like possible caries: a dark spot on an upper tooth and a darker area on a lower tooth. Early caries can often be treated simply if it is found in time.</p>
+      <p>Two areas on your teeth look like possible caries: a dark cavity between two upper front teeth and a brown area near the gum on a lower front tooth. Early caries can often be treated simply if it is found in time.</p>
       <p><b>Recommendation:</b> book a check-up with a dentist in the next few weeks and show them this report.</p>
       <div class="notice">This is not a diagnosis. Only a dentist can confirm caries.</div>
       <button class="btn">Download PDF for the dentist</button>
