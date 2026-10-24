@@ -3,7 +3,10 @@
 Clickable prototype: [prototype/index.html](../prototype/index.html) — open the file in a
 browser (works on desktop and at mobile width). Screenshots: [prototype/screens](../prototype/screens).
 
-The prototype is a mock-up: data and the photo are illustrative, no backend is called.
+The prototype is a mock-up: data are illustrative and no backend is called. The sample photo on the
+result screen is a real intra-oral photograph by Shaimaa Abdellatif, "Dental decay.jpg", Wikimedia
+Commons, licensed CC BY-SA 4.0 (cropped; the marked boxes are illustrative, not model output):
+https://commons.wikimedia.org/wiki/File:Dental_decay.jpg
 
 ## 8.1 Key user scenarios
 
